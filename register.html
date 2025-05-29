@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blood Donation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px;
+            background-color: #f44336;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #b71c1c;
+        }
+
+        .registration-form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-form h1 {
+            text-align: center;
+            color: #ff4d4d;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff4d4d;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            color: white;
+            background-color: #ff4d4d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .already {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+
+        .already:hover {
+            text-decoration: underline;
+            color: #cc0000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+            <img src="logo.webp" alt="Blood Donation Logo" style="height: 50px; width: 70px; border-radius: 50%; border: 2px solid white; background-color: #e0f7fa; object-fit: cover;" />
+            <span>Blood Donation</span>
+        </div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="contact.html">Contact</a>
+            <a href="About.html">About</a>
+        </nav>
+    </header>
+
+    <div class="registration-form">
+        <h1>Register</h1>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
+            </div>
+            <div class="form-group">
+                <label for="blood-group">Blood Group</label>
+                <select id="blood-group" name="blood_group" required>
+                    <option value="">Select your blood group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="Enter your city/location" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter a password" required />
+            </div>
+            <button type="submit" class="submit-btn">Register</button>
+            <a href="login.html" class="already">Already have an account?</a>
+        </form>
+    </div>
+
+    <footer>&copy; 2025 Blood Donation | All Rights Reserved</footer>
+
+   
+      
+<script>document.getElementById("registerForm").addEventListener("submit", function (event) {
+  event.preventDefault(); // Prevent default form submission
+
+  let formData = new FormData(this);
+
+  fetch("submit_registration.php", {
+      method: "POST",
+      body: formData
+  })
+  .then(response => response.json()) // Convert response to JSON
+  .then(data => {
+      alert(data.message); // Show the message
+
+      if (data.status === "success" || data.status === "error" && data.redirect) {
+          window.location.href = data.redirect; // Redirect to login or dashboard
+      }
+  
+        else if (data.status === "exists") {
+            localStorage.setItem("userEmail", data.email); // Store email in localStorage
+            window.location.href = "login.html"; // Redirect to login
+  }})
+  .catch(error => console.error("Error:", error));
+});
+</script>  
+</body>
+</html>

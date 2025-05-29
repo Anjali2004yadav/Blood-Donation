@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | Blood Donation</title>
+    <style>
+        /* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Profile Container */
+.profile-container {
+    background: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Profile Header */
+h2 {
+    color: #d32f2f;
+    margin-bottom: 20px;
+}
+
+/* Profile Picture */
+.profile-pic {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-pic img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d32f2f;
+}
+
+.profile-pic input[type="file"] {
+    margin-top: 10px;
+    padding: 5px;
+    background: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Form Inputs */
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+select {
+    background: white;
+}
+
+/* Submit Button */
+button {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #b71c1c;
+}
+
+/* Message Display */
+#message {
+    margin-top: 10px;
+    font-weight: bold;
+    color: green;
+}
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2>User Profile</h2>
+        <form id="profileForm" enctype="multipart/form-data">
+            <input type="hidden" id="user_id" name="user_id">
+            
+            <div class="profile-pic">
+                <img id="profileImage" src="default.jpg" alt="Profile Picture">
+                <input type="file" id="profile_pic" name="profile_pic">
+            </div>
+
+            <label>Name:</label>
+            <input type="text" id="name" name="name">
+            
+            <label>Email:</label>
+            <input type="email" id="email" name="email">
+            
+            <label>Phone:</label>
+            <input type="text" id="phone" name="phone">
+            
+            <label>Blood Group:</label>
+            <select id="blood_group" name="blood_group">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+
+            <label>Location:</label>
+            <input type="text" id="location" name="location">
+            
+            <button type="submit">Save Changes</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchUserProfile();
+
+            document.getElementById("profileForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                updateProfile();
+            });
+        });
+
+        function fetchUserProfile() {
+            fetch("get_user.php")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        document.getElementById("user_id").value = data.user.id;
+                        document.getElementById("name").value = data.user.name;
+                        document.getElementById("email").value = data.user.email;
+                        document.getElementById("phone").value = data.user.phone;
+                        document.getElementById("blood_group").value = data.user.blood_group;
+                        document.getElementById("location").value = data.user.location;
+                        document.getElementById("profileImage").src = data.user.profile_pic || "default.jpg";
+                    }
+                })
+                .catch(error => console.error("Error fetching profile:", error));
+        }
+
+        function updateProfile() {
+            let formData = new FormData(document.getElementById("profileForm"));
+
+            fetch("update_profile1.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("message").textContent = data.message;
+                if (data.status === "success") {
+                    fetchUserProfile();
+                }
+            })
+            .catch(error => console.error("Error updating profile:", error));
+        }
+    </script>
+</body>
+</html>

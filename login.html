@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+            overflow-x: hidden;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px;
+            background-color: #f44336;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header .logo img {
+            height: 50px;
+            width: 70px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background-color: #e0f7fa;
+            object-fit: cover;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #b71c1c;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 110px;
+            margin: 30px auto;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: #ff69b4;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .remember-me input {
+            margin-right: 5px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #d0465a, #cc2b2b);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(to right, #e85629, #ff69b4);
+            transform: scale(1.02);
+        }
+
+        .loading {
+            display: none;
+            color: #ff69b4;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .sign-up {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sign-up a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
+
+        .sign-up a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="logo.webp" alt="Blood Donation Logo">
+        <span>Blood Donation</span>
+    </div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>LOGIN</h2>
+        <form id="loginForm">
+            <div class="input-field">
+                <input type="email" id="email" placeholder="Email" required name="email">
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="login-btn">LOGIN</button>
+            <p class="loading">Checking credentials...</p>
+        </form>
+        <p class="sign-up">Not a member? <a href="register.html">Sign up now</a></p>
+    </div>
+</div>
+
+<footer>&copy; 2025 Blood Donation | All Rights Reserved</footer>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Stop traditional form submission
+
+        let formData = new FormData(this);
+        let loadingMessage = document.querySelector(".loading");
+        loadingMessage.style.display = "block"; // Show loading message
+
+        fetch("login.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            loadingMessage.style.display = "none"; // Hide loading message
+            alert(data.message); // Show message from PHP
+            if (data.status === "success") {
+                window.location.href = "dashboard.php"; // Redirect on success
+            }
+        })
+        .catch(error => {
+            loadingMessage.style.display = "none"; // Hide loading message
+            console.error("Error:", error);
+        });
+    });
+</script>
+
+</body>
+</html>

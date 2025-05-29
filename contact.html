@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blood Donation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+        overflow-x: hidden;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px;
+        background-color: #f44336;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      header .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      nav {
+        display: flex;
+        gap: 15px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 20px;
+        transition: background-color 0.3s;
+      }
+
+      nav a:hover {
+        background-color: #b71c1c;
+      }
+
+      .contact-section {
+        max-width: 600px;
+        margin: 65px auto;
+        padding: 30px;
+        padding-bottom: 73px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .contact-section h1 {
+        text-align: center;
+        color: #ff4d4d;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #ff4d4d;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        color: white;
+        background-color: #ff4d4d;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .submit-btn:hover {
+        background-color: #cc0000;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #f44336;
+        color: white;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img 
+          src="logo.webp" 
+          alt="Blood Donation Logo" 
+          style="
+            height: 50px; 
+            width: 70px; 
+            border-radius: 50%; 
+            border: 2px solid white; 
+            background-color: #e0f7fa;
+            object-fit: cover;
+          " 
+        />
+        <span>Blood Donation</span>
+      </div>
+      <nav>
+        <a href="home.html">Home</a>
+       <a href="About.html">About</a>
+      </nav>
+    </header>
+
+    <div class="contact-section">
+      <h1>Get in Touch</h1>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Write your message here"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+      
+      
+      
+    </div>
+    <script>
+      document.getElementById("contactForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent actual form submission
+        alert("Your message has been sent successfully!");
+        this.reset(); // Clear the form after submission
+      });
+    </script>
+  </body>
+  <footer>&copy; 2025 Blood Donation | All Rights Reserved</footer>
+</html>
